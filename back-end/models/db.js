@@ -176,5 +176,52 @@ const consultarVacinasAteMesFornecido = async (mesFornecido) => {
 
 };
 
+//Vacinas aplicadas
 
-module.exports = { pesquisaPorPessoa, cadastrarNovaPessoa, pesquisarTodos, atualizaPessoa, todasVacinas, vacinaIndividual, consultarVacinasPorAno, consultarPorAnoAte, consultarVacinasPorMes, consultarVacinasAteMesFornecido };
+const vacinasAplicadas = async (id) => {
+    const query = `
+    SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, VA.DATA_APLICACAO
+    FROM VACINAAPLICADA VA
+    JOIN VACINA V ON VA.ID_VACINA = V.ID_VACINA
+    WHERE VA.ID_PACIENTE = $1;
+  `;
+    const values = [id];
+    const results = await pool.query(query, values);
+    return results.rows;
+
+}
+
+const cadastroVacina = async (dadosVacinaAplicada) => {
+
+    const inserirVacinaAplicadaText = `
+            INSERT INTO VACINAAPLICADA(ID_PACIENTE, ID_VACINA, DATA_APLICACAO)
+            VALUES($1, $2, $3)
+            RETURNING *;
+          `;
+    const results = await pool.query(inserirVacinaAplicadaText, [dadosVacinaAplicada.id_paciente, dadosVacinaAplicada.id_vacina, dadosVacinaAplicada.data_aplicacao]);
+    return results.rows;
+
+};
+
+const deletarVacinaAplicada = async (idPaciente, idVacina) => {
+
+    const deletarVacinaAplicadaText = `
+        DELETE FROM VACINAAPLICADA
+        WHERE ID_PACIENTE = $1 AND ID_VACINA = $2;
+      `;
+    const res = await pool.query(deletarVacinaAplicadaText, [idPaciente, idVacina]);
+    
+    console.log(`Vacina aplicada deletada com sucesso: ${res.rowCount} registro(s) removido(s).`);
+}
+
+
+
+
+
+
+
+
+module.exports = { pesquisaPorPessoa, cadastrarNovaPessoa, pesquisarTodos, 
+    atualizaPessoa, todasVacinas, vacinaIndividual, consultarVacinasPorAno, 
+    consultarPorAnoAte, consultarVacinasPorMes, consultarVacinasAteMesFornecido,
+    vacinasAplicadas, cadastroVacina, deletarVacinaAplicada };

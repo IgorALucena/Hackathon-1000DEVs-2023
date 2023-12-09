@@ -1,11 +1,12 @@
 const express = require('express');
 const routerConsultaVacinaAplicada = express.Router();
+const {buscaVacinaAplicadas, cadastraVacinaAplicada, deletaVacinaAplicada} = require('../controllers/vacinaAplicada-controller');
 
-routerConsultaVacinaAplicada.get()
+routerConsultaVacinaAplicada.get('/:id', buscaVacinaAplicadas );
 
-routerConsultaVacinaAplicada.post()
+routerConsultaVacinaAplicada.post('/', cadastraVacinaAplicada);
 
-routerConsultaVacinaAplicada.delete()
+routerConsultaVacinaAplicada.delete('/:id/:id1', deletaVacinaAplicada);
 
-//module.exports = {routerConsultaVacinaAplicada};
+module.exports = {routerConsultaVacinaAplicada};
 

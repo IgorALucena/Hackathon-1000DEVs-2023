@@ -86,7 +86,7 @@ const todasVacinas = async () => {
     return result.rows;
 }
 
-const vacinaIndividual = async (id)=>{
+const vacinaIndividual = async (id) => {
     const query = `
 SELECT 
     V.ID_VACINA,
@@ -113,13 +113,68 @@ WHERE
     V.ID_VACINA = $1;
 `;
 
-const result = await pool.query(query, [id]);
-console.log(result.rows[0]);
+    const result = await pool.query(query, [id]);
+    console.log(result.rows[0]);
 
-return result.rows[0];
+    return result.rows[0];
 
 }
 
-//
+// Consulta de Vacina - Idade
 
-module.exports = { pesquisaPorPessoa, cadastrarNovaPessoa, pesquisarTodos, atualizaPessoa, todasVacinas,vacinaIndividual };
+const consultarVacinasPorAno = async (anoFornecido) => {
+    const query = `
+      SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAA.DESC_ANO
+      FROM VACINA V
+      JOIN PERIODOAPLICACAOANO PAA ON V.ID_VACINA = PAA.ID_VACINA
+      WHERE PAA.QTD_ANO_INICIAL = $1;
+    `;
+    const values = [anoFornecido];
+
+    const res = await pool.query(query, values);
+    return res.rows
+
+}
+const consultarPorAnoAte = async (idadeEmAnos) => {
+    const query = `
+      SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAA.DESC_ANO, PAM.DESC_MESES
+      FROM VACINA V
+      LEFT JOIN PERIODOAPLICACAOANO PAA ON V.ID_VACINA = PAA.ID_VACINA
+      LEFT JOIN PERIODOAPLICACAOMES PAM ON V.ID_VACINA = PAM.ID_VACINA
+      WHERE (PAA.QTD_ANO_FINAL >= $1 AND PAA.QTD_ANO_INICIAL <= $1)
+         OR (PAM.QTD_MESES_FINAL >= ($1 * 12) AND PAM.QTD_MESES_INICIAL <= ($1 * 12));
+    `;
+    const values = [idadeEmAnos];
+    const res = await pool.query(query, values);
+    return res.rows
+
+};
+
+const consultarVacinasPorMes = async (mesFornecido) => {
+    const query = `
+      SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAM.DESC_MESES
+      FROM VACINA V
+      JOIN PERIODOAPLICACAOMES PAM ON V.ID_VACINA = PAM.ID_VACINA
+      WHERE PAM.QTD_MESES_INICIAL <= $1 AND PAM.QTD_MESES_FINAL >= $1;
+    `;
+    const values = [mesFornecido];
+    const res = await pool.query(query, values);
+    return res.rows
+
+}
+
+const consultarVacinasAteMesFornecido = async (mesFornecido) => {
+    const query = `
+      SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAM.DESC_MESES
+      FROM VACINA V
+      JOIN PERIODOAPLICACAOMES PAM ON V.ID_VACINA = PAM.ID_VACINA
+      WHERE PAM.QTD_MESES_FINAL <= $1;
+    `;
+    const values = [mesFornecido];
+    const res = await pool.query(query, values);
+    return res.rows
+
+};
+
+
+module.exports = { pesquisaPorPessoa, cadastrarNovaPessoa, pesquisarTodos, atualizaPessoa, todasVacinas, vacinaIndividual, consultarVacinasPorAno, consultarPorAnoAte, consultarVacinasPorMes, consultarVacinasAteMesFornecido };

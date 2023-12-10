@@ -24,7 +24,7 @@ const pesquisarTodos = async () => {
     return result.rows;
 }
 const atualizaPessoa = async (dadosAtualizados, id) => {
-   
+
     let queryText = 'UPDATE PACIENTE SET ';
     let queryParams = [];
     let queryValues = [];
@@ -217,17 +217,120 @@ const pesquisarVacinaPorProtecao = async (doencaProtecao) => {
       FROM VACINA
       WHERE DOENCA_PROTECAO ILIKE $1;
     `;
-    const valorPesquisa = `%${doencaProtecao}%`; 
+    const valorPesquisa = `%${doencaProtecao}%`;
     const res = await pool.query(pesquisarVacinaText, [valorPesquisa]);
     console.log(res.rows);
-    return res.rows;    
-  };
+    return res.rows;
+};
 
-  
+//consulta vacinas paciente
+
+const pesquisarVacinasAplicadas = async (idPaciente) => {
+
+    const query = 'SELECT V.VACINA, VA.DATA_APLICACAO FROM VACINAAPLICADA VA INNER JOIN VACINA V ON VA.ID_VACINA = V.ID_VACINA WHERE VA.ID_PACIENTE = $1';
+    const result = await pool.query(query, [idPaciente]);
+    console.log(result.rows)
+    return result.rows;
+};
+
+// Função para pesquisar vacinas pendentes de um paciente
+const pesquisarVacinasPendentes = async (idPaciente) => {
+
+    const query = `
+            SELECT V.VACINA
+            FROM VACINA V
+            WHERE V.ID_VACINA NOT IN (
+                SELECT VA.ID_VACINA
+                FROM VACINAAPLICADA VA
+                WHERE VA.ID_PACIENTE = $1
+            )`;
+    const result = await pool.query(query, [idPaciente]);
+    console.log(result.rows)
+    return result.rows;
+
+};
+
+//Campanha de vacina
+
+const consultarCampanhasAtivasPorData = async (data) => {
+
+    const query = 'SELECT * FROM CAMPANHA WHERE DATA_INICIO <= $1 AND DATA_FIM >= $1';
+    const result = await pool.query(query, [data]);
+    console.log(result.rows);
+    return result.rows;
+
+};
+
+const consultarCampanhasPorProtecao = async (doencaProtecao) => {
+    const query = `
+        SELECT C.* FROM CAMPANHA C
+        INNER JOIN CAMPANHAVACINA CV ON C.ID_CAMPANHA = CV.ID_CAMPANHA
+        INNER JOIN VACINA V ON CV.ID_VACINA = V.ID_VACINA
+        WHERE V.DOENCA_PROTECAO ILIKE $1`;
+    const valorLike = `%${doencaProtecao}%`; // Adiciona os curingas para busca parcial
+    const result = await pool.query(query, [valorLike]);
+    console.log(result.rows);
+    return result.rows;
+};
+
+const cadastrarCampanha = async (novaCampanha) => {
+    try {
+        const query = 'INSERT INTO CAMPANHA (ID_CAMPANHA, DESCRICAO, DATA_INICIO, DATA_FIM) VALUES ($1, $2, $3, $4) RETURNING *';
+        const values = [novaCampanha.ID_CAMPANHA, novaCampanha.DESCRICAO, novaCampanha.DATA_INICIO, novaCampanha.DATA_FIM];
+        const result = await pool.query(query, values);
+        console.log(result.rows[0])
+        return result.rows[0];
+    } catch (err) {
+        console.error('Erro ao cadastrar campanha:', err);
+        throw err;
+    }
+};
+
+const editarCampanha = async (idCampanha, dadosEdicao) => {
+    try {
+        const query = 'UPDATE CAMPANHA SET DESCRICAO = $2, DATA_INICIO = $3, DATA_FIM = $4 WHERE ID_CAMPANHA = $1 RETURNING *';
+        const values = [idCampanha, dadosEdicao.DESCRICAO, dadosEdicao.DATA_INICIO, dadosEdicao.DATA_FIM];
+        const result = await pool.query(query, values);
+        console.log(result.rows[0]);
+        return result.rows[0];
+    } catch (err) {
+        console.error('Erro ao editar campanha:', err);
+        throw err;
+    }
+};
+
+const cadastrarVacinaEmCampanha = async (idCampanha, idVacina) => {
+    try {
+        const query = 'INSERT INTO CAMPANHAVACINA (ID_CAMPANHA, ID_VACINA) VALUES ($1, $2)';
+        const result = await pool.query(query, [idCampanha, idVacina]);
+        console.log(result.rows)
+        return result.rowCount === 1 ? 'Vacina cadastrada na campanha com sucesso.' : 'Erro ao cadastrar vacina na campanha.';
+    } catch (err) {
+        console.error('Erro ao cadastrar vacina em campanha:', err);
+        throw err;
+    }
+    
+};
+
+const deletarVacinaDeCampanha = async (idCampanha, idVacina) => {
+    try {
+        const query = 'DELETE FROM CAMPANHAVACINA WHERE ID_CAMPANHA = $1 AND ID_VACINA = $2';
+        const result = await pool.query(query, [idCampanha, idVacina]);
+        return result.rowCount === 1 ? 'Vacina deletada da campanha com sucesso.': 'Erro ao deletar vacina da campanha.';
+    } catch (err) {
+        console.error('Erro ao deletar vacina de campanha:', err);
+        throw err;
+    }
+};
+
+
 
 module.exports = {
     pesquisaPorPessoa, cadastrarNovaPessoa, pesquisarTodos,
     atualizaPessoa, todasVacinas, vacinaIndividual, consultarVacinasPorAno,
     consultarPorAnoAte, consultarVacinasPorMes, consultarVacinasAteMesFornecido,
-    vacinasAplicadas, cadastroVacina, deletarVacinaAplicada, pesquisarVacinaPorProtecao
+    vacinasAplicadas, cadastroVacina, deletarVacinaAplicada, pesquisarVacinaPorProtecao,
+    pesquisarVacinasAplicadas, pesquisarVacinasPendentes, consultarCampanhasAtivasPorData, 
+    consultarCampanhasPorProtecao, cadastrarCampanha, editarCampanha, cadastrarVacinaEmCampanha,
+    deletarVacinaDeCampanha
 };

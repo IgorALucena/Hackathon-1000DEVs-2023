@@ -50,8 +50,6 @@ const atualizaPessoa = async (dadosAtualizados, id) => {
     return result.rowCount === 1 ? result.rows[0] : null;
 }
 
-//consulta vacina:
-
 const todasVacinas = async () => {
 
     const queryText = `
@@ -115,9 +113,8 @@ WHERE
 
 }
 
-// Consulta de Vacina - Idade
-
 const consultarVacinasPorAno = async (anoFornecido) => {
+
     const query = `
       SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAA.DESC_ANO
       FROM VACINA V
@@ -125,12 +122,11 @@ const consultarVacinasPorAno = async (anoFornecido) => {
       WHERE PAA.QTD_ANO_INICIAL = $1;
     `;
     const values = [anoFornecido];
-
     const res = await pool.query(query, values);
     return res.rows
-
 }
 const consultarPorAnoAte = async (idadeEmAnos) => {
+
     const query = `
       SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAA.DESC_ANO, PAM.DESC_MESES
       FROM VACINA V
@@ -142,10 +138,10 @@ const consultarPorAnoAte = async (idadeEmAnos) => {
     const values = [idadeEmAnos];
     const res = await pool.query(query, values);
     return res.rows
-
 };
 
 const consultarVacinasPorMes = async (mesFornecido) => {
+
     const query = `
       SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAM.DESC_MESES
       FROM VACINA V
@@ -155,10 +151,10 @@ const consultarVacinasPorMes = async (mesFornecido) => {
     const values = [mesFornecido];
     const res = await pool.query(query, values);
     return res.rows
-
 }
 
 const consultarVacinasAteMesFornecido = async (mesFornecido) => {
+
     const query = `
       SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, PAM.DESC_MESES
       FROM VACINA V
@@ -171,9 +167,8 @@ const consultarVacinasAteMesFornecido = async (mesFornecido) => {
 
 };
 
-//Vacinas aplicadas
-
 const vacinasAplicadas = async (id) => {
+
     const query = `
     SELECT V.ID_VACINA, V.VACINA, V.SIGLA_VACINA, V.DOENCA_PROTECAO, VA.DATA_APLICACAO
     FROM VACINAAPLICADA VA
@@ -209,8 +204,6 @@ const deletarVacinaAplicada = async (idPaciente, idVacina) => {
     console.log(`Vacina aplicada deletada com sucesso: ${res.rowCount} registro(s) removido(s).`);
 }
 
-//consulta vacina por proteção:
-
 const pesquisarVacinaPorProtecao = async (doencaProtecao) => {
     const pesquisarVacinaText = `
       SELECT ID_VACINA, VACINA, SIGLA_VACINA, DOENCA_PROTECAO, DOSE
@@ -223,8 +216,6 @@ const pesquisarVacinaPorProtecao = async (doencaProtecao) => {
     return res.rows;
 };
 
-//consulta vacinas paciente
-
 const pesquisarVacinasAplicadas = async (idPaciente) => {
 
     const query = 'SELECT V.VACINA, VA.DATA_APLICACAO FROM VACINAAPLICADA VA INNER JOIN VACINA V ON VA.ID_VACINA = V.ID_VACINA WHERE VA.ID_PACIENTE = $1';
@@ -233,7 +224,6 @@ const pesquisarVacinasAplicadas = async (idPaciente) => {
     return result.rows;
 };
 
-// Função para pesquisar vacinas pendentes de um paciente
 const pesquisarVacinasPendentes = async (idPaciente) => {
 
     const query = `
@@ -250,78 +240,126 @@ const pesquisarVacinasPendentes = async (idPaciente) => {
 
 };
 
-//Campanha de vacina
-
 const consultarCampanhasAtivasPorData = async (data) => {
 
     const query = 'SELECT * FROM CAMPANHA WHERE DATA_INICIO <= $1 AND DATA_FIM >= $1';
     const result = await pool.query(query, [data]);
     console.log(result.rows);
     return result.rows;
-
 };
 
 const consultarCampanhasPorProtecao = async (doencaProtecao) => {
+
     const query = `
         SELECT C.* FROM CAMPANHA C
         INNER JOIN CAMPANHAVACINA CV ON C.ID_CAMPANHA = CV.ID_CAMPANHA
         INNER JOIN VACINA V ON CV.ID_VACINA = V.ID_VACINA
         WHERE V.DOENCA_PROTECAO ILIKE $1`;
-    const valorLike = `%${doencaProtecao}%`; // Adiciona os curingas para busca parcial
+    const valorLike = `%${doencaProtecao}%`;
     const result = await pool.query(query, [valorLike]);
     console.log(result.rows);
     return result.rows;
 };
 
 const cadastrarCampanha = async (novaCampanha) => {
-    try {
+
         const query = 'INSERT INTO CAMPANHA (ID_CAMPANHA, DESCRICAO, DATA_INICIO, DATA_FIM) VALUES ($1, $2, $3, $4) RETURNING *';
         const values = [novaCampanha.ID_CAMPANHA, novaCampanha.DESCRICAO, novaCampanha.DATA_INICIO, novaCampanha.DATA_FIM];
         const result = await pool.query(query, values);
         console.log(result.rows[0])
         return result.rows[0];
-    } catch (err) {
-        console.error('Erro ao cadastrar campanha:', err);
-        throw err;
-    }
 };
 
 const editarCampanha = async (idCampanha, dadosEdicao) => {
-    try {
-        const query = 'UPDATE CAMPANHA SET DESCRICAO = $2, DATA_INICIO = $3, DATA_FIM = $4 WHERE ID_CAMPANHA = $1 RETURNING *';
-        const values = [idCampanha, dadosEdicao.DESCRICAO, dadosEdicao.DATA_INICIO, dadosEdicao.DATA_FIM];
-        const result = await pool.query(query, values);
-        console.log(result.rows[0]);
-        return result.rows[0];
-    } catch (err) {
-        console.error('Erro ao editar campanha:', err);
-        throw err;
-    }
+    const query = 'UPDATE CAMPANHA SET DESCRICAO = $2, DATA_INICIO = $3, DATA_FIM = $4 WHERE ID_CAMPANHA = $1 RETURNING *';
+    const values = [idCampanha, dadosEdicao.DESCRICAO, dadosEdicao.DATA_INICIO, dadosEdicao.DATA_FIM];
+    const result = await pool.query(query, values);
+    console.log(result.rows[0]);
+    return result.rows[0];
 };
 
 const cadastrarVacinaEmCampanha = async (idCampanha, idVacina) => {
-    try {
-        const query = 'INSERT INTO CAMPANHAVACINA (ID_CAMPANHA, ID_VACINA) VALUES ($1, $2)';
-        const result = await pool.query(query, [idCampanha, idVacina]);
-        console.log(result.rows)
-        return result.rowCount === 1 ? 'Vacina cadastrada na campanha com sucesso.' : 'Erro ao cadastrar vacina na campanha.';
-    } catch (err) {
-        console.error('Erro ao cadastrar vacina em campanha:', err);
-        throw err;
-    }
-    
+
+    const query = 'INSERT INTO CAMPANHAVACINA (ID_CAMPANHA, ID_VACINA) VALUES ($1, $2)';
+    const result = await pool.query(query, [idCampanha, idVacina]);
+    console.log(result.rows)
+    return result.rowCount === 1 ? 'Vacina cadastrada na campanha com sucesso.' : 'Erro ao cadastrar vacina na campanha.';
 };
 
 const deletarVacinaDeCampanha = async (idCampanha, idVacina) => {
-    try {
-        const query = 'DELETE FROM CAMPANHAVACINA WHERE ID_CAMPANHA = $1 AND ID_VACINA = $2';
-        const result = await pool.query(query, [idCampanha, idVacina]);
-        return result.rowCount === 1 ? 'Vacina deletada da campanha com sucesso.': 'Erro ao deletar vacina da campanha.';
-    } catch (err) {
-        console.error('Erro ao deletar vacina de campanha:', err);
-        throw err;
-    }
+
+    const query = 'DELETE FROM CAMPANHAVACINA WHERE ID_CAMPANHA = $1 AND ID_VACINA = $2';
+    const result = await pool.query(query, [idCampanha, idVacina]);
+    return result.rowCount === 1 ? 'Vacina deletada da campanha com sucesso.' : 'Erro ao deletar vacina da campanha.';
 };
+
+const cadastrarVacina = async (vacina) => {
+    const { id_vacina, nome_vacina, sigla_vacina, doenca_protecao, dose, id_rede } = vacina;
+    const query = `
+    INSERT INTO vacina (id_vacina, vacina, sigla_vacina, doenca_protecao, dose, id_rede)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *;
+  `;
+    const res = await pool.query(query, [id_vacina, nome_vacina, sigla_vacina, doenca_protecao, dose, id_rede]);
+    return res.rows[0];
+};
+
+const editarVacina = async (id_vacina, dadosAtualizados) => {
+    const { nome_vacina, sigla_vacina, doenca_protecao, dose, id_rede } = dadosAtualizados;
+    const query = `
+      UPDATE vacina
+      SET vacina = $1, sigla_vacina = $2, doenca_protecao = $3, dose = $4, id_rede = $5
+      WHERE id_vacina = $6
+      RETURNING *;
+    `;
+    const res = await pool.query(query, [nome_vacina, sigla_vacina, doenca_protecao, dose, id_rede, id_vacina]);
+    return res.rows[0];
+};
+
+const cadastrarPeriodoAplicacaoAno = async (periodo) => {
+    const { id, id_vacina, qtd_ano_inicial, qtd_ano_final, desc_ano } = periodo;
+    const query = `
+      INSERT INTO periodoaplicacaoano (id, id_vacina, qtd_ano_inicial, qtd_ano_final, desc_ano)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;
+    `;
+    const res = await pool.query(query, [id, id_vacina, qtd_ano_inicial, qtd_ano_final, desc_ano]);
+    return res.rows[0];
+};
+
+const removerPeriodoAplicacaoAno = async (id) => {
+    const query = `
+      DELETE FROM periodoaplicacaoano
+      WHERE id = $1
+      RETURNING *;
+    `;
+    const res = await pool.query(query, [id]);
+    return res.rows[0];
+};
+
+const cadastrarPeriodoAplicacaoMes = async (periodo) => {
+    const { id, id_vacina, qtd_meses_inicial, qtd_meses_final, desc_meses } = periodo;
+    const query = `
+      INSERT INTO periodoaplicacaomes (id, id_vacina, qtd_meses_inicial, qtd_meses_final, desc_meses)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;
+    `;
+
+    const res = await pool.query(query, [id, id_vacina, qtd_meses_inicial, qtd_meses_final, desc_meses]);
+    return res.rows[0];
+};
+
+const removerPeriodoAplicacaoMes = async (id) => {
+    const query = `
+      DELETE FROM periodoaplicacaomes
+      WHERE id = $1
+      RETURNING *;
+    `;
+    const res = await pool.query(query, [id]);
+    return res.rows[0];
+};
+
+
 
 
 
@@ -330,7 +368,8 @@ module.exports = {
     atualizaPessoa, todasVacinas, vacinaIndividual, consultarVacinasPorAno,
     consultarPorAnoAte, consultarVacinasPorMes, consultarVacinasAteMesFornecido,
     vacinasAplicadas, cadastroVacina, deletarVacinaAplicada, pesquisarVacinaPorProtecao,
-    pesquisarVacinasAplicadas, pesquisarVacinasPendentes, consultarCampanhasAtivasPorData, 
+    pesquisarVacinasAplicadas, pesquisarVacinasPendentes, consultarCampanhasAtivasPorData,
     consultarCampanhasPorProtecao, cadastrarCampanha, editarCampanha, cadastrarVacinaEmCampanha,
-    deletarVacinaDeCampanha
+    deletarVacinaDeCampanha, cadastrarVacina, editarVacina, cadastrarPeriodoAplicacaoAno,
+    removerPeriodoAplicacaoAno, cadastrarPeriodoAplicacaoMes, removerPeriodoAplicacaoMes
 };

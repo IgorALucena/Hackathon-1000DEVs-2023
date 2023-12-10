@@ -24,33 +24,28 @@ const pesquisarTodos = async () => {
     return result.rows;
 }
 const atualizaPessoa = async (dadosAtualizados, id) => {
-    // Inicializa partes da consulta SQL
+   
     let queryText = 'UPDATE PACIENTE SET ';
     let queryParams = [];
     let queryValues = [];
 
-    // Verifica se o nome foi fornecido e prepara a consulta
     if (dadosAtualizados.NOME) {
         queryParams.push('NOME = $' + (queryParams.length + 1));
         queryValues.push(dadosAtualizados.NOME);
     }
 
-    // Verifica se a data de nascimento foi fornecida e prepara a consulta
     if (dadosAtualizados.DATA_NASCIMENTO) {
         queryParams.push('DATA_NASCIMENTO = $' + (queryParams.length + 1));
         queryValues.push(dadosAtualizados.DATA_NASCIMENTO);
     }
 
-    // Se nenhum dado foi fornecido, retorna sem fazer a atualização
     if (queryParams.length === 0) {
         throw new Error('Nenhum dado fornecido para atualização.');
     }
 
-    // Completa a consulta SQL
     queryText += queryParams.join(', ') + ' WHERE ID_PACIENTE = $' + (queryParams.length + 1);
     queryValues.push(id);
 
-    // Executa a consulta SQL
     const result = await pool.query(queryText, queryValues);
     return result.rowCount === 1 ? result.rows[0] : null;
 }
@@ -210,18 +205,29 @@ const deletarVacinaAplicada = async (idPaciente, idVacina) => {
         WHERE ID_PACIENTE = $1 AND ID_VACINA = $2;
       `;
     const res = await pool.query(deletarVacinaAplicadaText, [idPaciente, idVacina]);
-    
+
     console.log(`Vacina aplicada deletada com sucesso: ${res.rowCount} registro(s) removido(s).`);
 }
 
+//consulta vacina por proteção:
 
+const pesquisarVacinaPorProtecao = async (doencaProtecao) => {
+    const pesquisarVacinaText = `
+      SELECT ID_VACINA, VACINA, SIGLA_VACINA, DOENCA_PROTECAO, DOSE
+      FROM VACINA
+      WHERE DOENCA_PROTECAO ILIKE $1;
+    `;
+    const valorPesquisa = `%${doencaProtecao}%`; 
+    const res = await pool.query(pesquisarVacinaText, [valorPesquisa]);
+    console.log(res.rows);
+    return res.rows;    
+  };
 
+  
 
-
-
-
-
-module.exports = { pesquisaPorPessoa, cadastrarNovaPessoa, pesquisarTodos, 
-    atualizaPessoa, todasVacinas, vacinaIndividual, consultarVacinasPorAno, 
+module.exports = {
+    pesquisaPorPessoa, cadastrarNovaPessoa, pesquisarTodos,
+    atualizaPessoa, todasVacinas, vacinaIndividual, consultarVacinasPorAno,
     consultarPorAnoAte, consultarVacinasPorMes, consultarVacinasAteMesFornecido,
-    vacinasAplicadas, cadastroVacina, deletarVacinaAplicada };
+    vacinasAplicadas, cadastroVacina, deletarVacinaAplicada, pesquisarVacinaPorProtecao
+};

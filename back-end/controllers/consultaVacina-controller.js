@@ -4,23 +4,24 @@ const consultaVacinaController = async (req, res) => {
     try {
         const vacinas = await db.todasVacinas();
         res.json(vacinas);
-        console.log(vacinas);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erro ao consultar vacinas');
     }
-    catch (err) {
-        console.log(err);
-    }
-}
+};
 
 const consultaIndividualVacinasController = async (req, res) => {
     try {
-        const id = req.params.id
-        const vacinas = await db.vacinaIndividual(id);
-        res.json(vacinas);
-        console.log(vacinas);
+        const { id } = req.params;
+        const vacina = await db.vacinaIndividual(id);
+        if (!vacina) {
+            return res.status(404).send('Vacina não encontrada');
+        }
+        res.json(vacina);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erro ao consultar vacina individual');
     }
-    catch (err) {
-        console.log(err);
-    }
-}
+};
 
-module.exports = { consultaVacinaController, consultaIndividualVacinasController }
+module.exports = { consultaVacinaController, consultaIndividualVacinasController };

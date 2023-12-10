@@ -55,32 +55,6 @@ const removerAplicacaoMesController = async (req, res) => {
     }
 };
 
-
-/*const cadastroVacinaController = async(req, res)=>{
-
-
-}
-
-const edicaoVacinaController = async(req, res)=>{
-
-}
-
-const cadastroAplicacaoAnoController = async(req, res)=>{
-
-}
-
-const removerAplicacaoAnoController = async(req, res)=>{
-
-}
-
-const cadastroAplicacaoMesController = async(req, res)=>{
-
-}
-
-const removerAplicacaoMesController = async(req, res)=>{
-
-}*/
-
 module.exports = { cadastroVacinaController, edicaoVacinaController, cadastroAplicacaoAnoController, removerAplicacaoAnoController, cadastroAplicacaoMesController, removerAplicacaoMesController };
 
 

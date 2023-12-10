@@ -12,17 +12,17 @@ const pool = new Pool({
 const pesquisaPorPessoa = async (id) => {
     const result = await pool.query('SELECT * FROM PACIENTE WHERE ID_PACIENTE = $1', [id]);
     return result.rows;
-}
+};
 
 const cadastrarNovaPessoa = async (novoPaciente) => {
     const result = await pool.query('INSERT INTO PACIENTE (ID_PACIENTE, NOME, DATA_NASCIMENTO) VALUES ($1, $2, $3)', [novoPaciente.ID_PACIENTE, novoPaciente.NOME, novoPaciente.DATA_NASCIMENTO]);
     return result.rows[0];
-}
+};
 
 const pesquisarTodos = async () => {
     const result = await pool.query('SELECT * FROM PACIENTE');
     return result.rows;
-}
+};
 const atualizaPessoa = async (dadosAtualizados, id) => {
 
     let queryText = 'UPDATE PACIENTE SET ';
@@ -48,7 +48,7 @@ const atualizaPessoa = async (dadosAtualizados, id) => {
 
     const result = await pool.query(queryText, queryValues);
     return result.rowCount === 1 ? result.rows[0] : null;
-}
+};
 
 const todasVacinas = async () => {
 
@@ -77,7 +77,7 @@ const todasVacinas = async () => {
 `;
     const result = await pool.query(queryText);
     return result.rows;
-}
+};
 
 const vacinaIndividual = async (id) => {
     const query = `
@@ -111,7 +111,7 @@ WHERE
 
     return result.rows[0];
 
-}
+};
 
 const consultarVacinasPorAno = async (anoFornecido) => {
 
@@ -124,7 +124,8 @@ const consultarVacinasPorAno = async (anoFornecido) => {
     const values = [anoFornecido];
     const res = await pool.query(query, values);
     return res.rows
-}
+};
+
 const consultarPorAnoAte = async (idadeEmAnos) => {
 
     const query = `
@@ -151,7 +152,7 @@ const consultarVacinasPorMes = async (mesFornecido) => {
     const values = [mesFornecido];
     const res = await pool.query(query, values);
     return res.rows
-}
+};
 
 const consultarVacinasAteMesFornecido = async (mesFornecido) => {
 
@@ -179,7 +180,7 @@ const vacinasAplicadas = async (id) => {
     const results = await pool.query(query, values);
     return results.rows;
 
-}
+};
 
 const cadastroVacina = async (dadosVacinaAplicada) => {
 
@@ -202,7 +203,7 @@ const deletarVacinaAplicada = async (idPaciente, idVacina) => {
     const res = await pool.query(deletarVacinaAplicadaText, [idPaciente, idVacina]);
 
     console.log(`Vacina aplicada deletada com sucesso: ${res.rowCount} registro(s) removido(s).`);
-}
+};
 
 const pesquisarVacinaPorProtecao = async (doencaProtecao) => {
     const pesquisarVacinaText = `
@@ -263,11 +264,11 @@ const consultarCampanhasPorProtecao = async (doencaProtecao) => {
 
 const cadastrarCampanha = async (novaCampanha) => {
 
-        const query = 'INSERT INTO CAMPANHA (ID_CAMPANHA, DESCRICAO, DATA_INICIO, DATA_FIM) VALUES ($1, $2, $3, $4) RETURNING *';
-        const values = [novaCampanha.ID_CAMPANHA, novaCampanha.DESCRICAO, novaCampanha.DATA_INICIO, novaCampanha.DATA_FIM];
-        const result = await pool.query(query, values);
-        console.log(result.rows[0])
-        return result.rows[0];
+    const query = 'INSERT INTO CAMPANHA (ID_CAMPANHA, DESCRICAO, DATA_INICIO, DATA_FIM) VALUES ($1, $2, $3, $4) RETURNING *';
+    const values = [novaCampanha.ID_CAMPANHA, novaCampanha.DESCRICAO, novaCampanha.DATA_INICIO, novaCampanha.DATA_FIM];
+    const result = await pool.query(query, values);
+    console.log(result.rows[0])
+    return result.rows[0];
 };
 
 const editarCampanha = async (idCampanha, dadosEdicao) => {

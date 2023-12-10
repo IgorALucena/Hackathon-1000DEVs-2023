@@ -9,6 +9,10 @@ const {routerConsultaVacinaPaciente} = require('./routes/routerConsultaVacinaPac
 const {routerCadastroVacina} = require('./routes/routerCadastroVacina')
 const {routerCampanhaVacinacao} = require('./routes/routerCampanhaVacinacao');
 const {rootRouteController} = require('./controllers/root-router-controller');
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger_output.json");
+
+server.use("/swagger-ui", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');

@@ -1,0 +1,784 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "swagger-exemplo",
+    "description": "Iteris - Express Swgger",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/routerAdmPaciente/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "admPaciente",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_paciente": {
+                  "type": "integer"
+                },
+                "nome": {
+                  "type": "string"
+                },
+                "data_nascimento": {
+                  "type": "date"
+                }
+              },
+              "required": [
+                "id_paciente",
+                "nome",
+                "data_nascimento"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerAdmPaciente/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacina/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacina/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacinaIdade/anoExato/{ano}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "ano",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacinaIdade/anoAte/{ano}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "ano",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacinaIdade/mesExato/{mes}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "mes",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacinaIdade/mesAte/{mes}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "mes",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacinaProtecao/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerVacinaAplicada/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerVacinaAplicada/": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "cadastraVacinaAplicada",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_paciente": {
+                  "type": "integer"
+                },
+                "id_vacina": {
+                  "type": "integer"
+                },
+                "data_aplicacao": {
+                  "type": "date"
+                }
+              },
+              "required": [
+                "id_paciente",
+                "id_vacina",
+                "data_aplicacao"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerVacinaAplicada/{id}/{id1}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id1",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacinaPaciente/tomada/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerConsultaVacinaPaciente/pendentes/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCampanhaVacinacao/campanhaData/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCampanhaVacinacao/": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "CampanhaVacinacao",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_campanha": {
+                  "type": "integer"
+                },
+                "descricao": {
+                  "type": "string"
+                },
+                "data_inicio": {
+                  "type": "date"
+                },
+                "data_fim": {
+                  "type": "date"
+                }
+              },
+              "required": [
+                "id_campanha",
+                "descricao",
+                "data_inicio",
+                "data_fim"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCampanhaVacinacao/{id}/{id1}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id1",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cadastroVacina",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_campanha": {
+                  "type": "integer"
+                },
+                "vacina": {
+                  "type": "string"
+                },
+                "sigla_vacina": {
+                  "type": "string"
+                },
+                "doenca_protecao": {
+                  "type": "string"
+                },
+                "dose": {
+                  "type": "string"
+                },
+                "id_rede": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "id_campanha",
+                "vacina",
+                "sigla_vacina",
+                "doenca_protecao",
+                "dose",
+                "id_rede"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCampanhaVacinacao/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCampanhaVacinacao/campanhaProtecao/{pc}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "pc",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCadastroVacina/": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "cadastroVacina",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_paciente": {
+                  "type": "integer"
+                },
+                "id_vacina": {
+                  "type": "integer"
+                },
+                "data_aplicacao": {
+                  "type": "date"
+                }
+              },
+              "required": [
+                "id_paciente",
+                "id_vacina",
+                "data_aplicacao"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCadastroVacina/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCadastroVacina/cadastroAplicacaoAno": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "cadastroAplicacaoAno",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_paciente": {
+                  "type": "integer"
+                },
+                "id_vacina": {
+                  "type": "integer"
+                },
+                "qtd_ano_inicial": {
+                  "type": "integer"
+                },
+                "qtd_ano_final": {
+                  "type": "integer"
+                },
+                "desc_ano": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id_paciente",
+                "id_vacina",
+                "qtd_ano_inicial",
+                "qtd_ano_final",
+                "desc_ano"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCadastroVacina/revomerAplicacaoAno/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCadastroVacina/cadastroAplicacaoMes": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "cadastroAplicacaoMes",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_paciente": {
+                  "type": "integer"
+                },
+                "id_vacina": {
+                  "type": "integer"
+                },
+                "qtd_ano_inicial": {
+                  "type": "integer"
+                },
+                "qtd_ano_final": {
+                  "type": "integer"
+                },
+                "desc_meses": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id_paciente",
+                "id_vacina",
+                "qtd_ano_inicial",
+                "qtd_ano_final",
+                "desc_meses"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/routerCadastroVacina/removerAplicacaoMes/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

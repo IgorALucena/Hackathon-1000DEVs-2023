@@ -1,19 +1,22 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "swagger-exemplo",
-    "description": "Iteris - Express Swgger",
+    "title": "API Carteira de vacinação",
+    "description": "API criada como requisito para conclusão do Hackathon",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "teste2-production.up.railway.app",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Raiz"
+        ],
+        "description": "boas-vindas.",
         "responses": {
           "200": {
             "description": "OK"
@@ -23,7 +26,10 @@
     },
     "/routerAdmPaciente/": {
       "get": {
-        "description": "",
+        "tags": [
+          "ADM Pacientes"
+        ],
+        "description": "Rota voltada para consultas de pacientes.",
         "responses": {
           "200": {
             "description": "OK"
@@ -34,7 +40,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "ADM Pacientes"
+        ],
+        "description": "Rota voltada para criação de paciente.",
         "parameters": [
           {
             "name": "admPaciente",
@@ -72,7 +81,10 @@
     },
     "/routerAdmPaciente/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "ADM Pacientes"
+        ],
+        "description": "Rota voltada para consulta de paciente individual.",
         "parameters": [
           {
             "name": "id",
@@ -94,13 +106,39 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "ADM Pacientes"
+        ],
+        "description": "Rota voltada para edição de paciente.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "admPaciente",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id_paciente": {
+                  "type": "integer"
+                },
+                "nome": {
+                  "type": "string"
+                },
+                "data_nascimento": {
+                  "type": "date"
+                }
+              },
+              "required": [
+                "id_paciente",
+                "nome",
+                "data_nascimento"
+              ]
+            }
           }
         ],
         "responses": {
@@ -118,7 +156,10 @@
     },
     "/routerConsultaVacina/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Consulta de Vacinas"
+        ],
+        "description": "Consulta todas vacinas",
         "responses": {
           "200": {
             "description": "OK"
@@ -131,7 +172,10 @@
     },
     "/routerConsultaVacina/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Consulta de Vacinas"
+        ],
+        "description": "Consulta de vacina individual",
         "parameters": [
           {
             "name": "id",
@@ -155,7 +199,10 @@
     },
     "/routerConsultaVacinaIdade/anoExato/{ano}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina por Idade"
+        ],
+        "description": "Consulta vacina ano exato",
         "parameters": [
           {
             "name": "ano",
@@ -179,7 +226,10 @@
     },
     "/routerConsultaVacinaIdade/anoAte/{ano}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina por Idade"
+        ],
+        "description": "Consulta vacina a ser tomada até o ano informado",
         "parameters": [
           {
             "name": "ano",
@@ -203,7 +253,10 @@
     },
     "/routerConsultaVacinaIdade/mesExato/{mes}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina por Idade"
+        ],
+        "description": "Consulta vacina mês exato",
         "parameters": [
           {
             "name": "mes",
@@ -227,7 +280,10 @@
     },
     "/routerConsultaVacinaIdade/mesAte/{mes}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina por Idade"
+        ],
+        "description": "Consulta vacina a ser tomada até o mês informado",
         "parameters": [
           {
             "name": "mes",
@@ -249,9 +305,20 @@
         }
       }
     },
-    "/routerConsultaVacinaProtecao/": {
+    "/routerConsultaVacinaProtecao/{protecao}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina por Proteção"
+        ],
+        "description": "Consulta vacina por proteção",
+        "parameters": [
+          {
+            "name": "protecao",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -267,7 +334,10 @@
     },
     "/routerVacinaAplicada/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina Aplicada"
+        ],
+        "description": "Consulta de vacina aplicada individualmente",
         "parameters": [
           {
             "name": "id",
@@ -291,7 +361,10 @@
     },
     "/routerVacinaAplicada/": {
       "post": {
-        "description": "",
+        "tags": [
+          "Vacina Aplicada"
+        ],
+        "description": "Cadastro de vacina aplicada",
         "parameters": [
           {
             "name": "cadastraVacinaAplicada",
@@ -332,7 +405,10 @@
     },
     "/routerVacinaAplicada/{id}/{id1}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Vacina Aplicada"
+        ],
+        "description": "Deleta vacina aplicada",
         "parameters": [
           {
             "name": "id",
@@ -362,7 +438,10 @@
     },
     "/routerConsultaVacinaPaciente/tomada/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina por Paciente"
+        ],
+        "description": "Consulta vacina tomada por paciente",
         "parameters": [
           {
             "name": "id",
@@ -383,7 +462,10 @@
     },
     "/routerConsultaVacinaPaciente/pendentes/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Vacina por Paciente"
+        ],
+        "description": "Consulta vacina pendente por paciente",
         "parameters": [
           {
             "name": "id",
@@ -404,7 +486,10 @@
     },
     "/routerCampanhaVacinacao/campanhaData/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Campanha de Vacinação"
+        ],
+        "description": "Pesquisa campanha por data",
         "parameters": [
           {
             "name": "data",
@@ -424,10 +509,13 @@
     },
     "/routerCampanhaVacinacao/": {
       "post": {
-        "description": "",
+        "tags": [
+          "Campanha de Vacinação"
+        ],
+        "description": "Cadastra Campanha de vacinação",
         "parameters": [
           {
-            "name": "CampanhaVacinacao",
+            "name": "campanhaVacinacao",
             "in": "body",
             "required": true,
             "schema": {
@@ -466,7 +554,10 @@
     },
     "/routerCampanhaVacinacao/{id}/{id1}": {
       "post": {
-        "description": "",
+        "tags": [
+          "Campanha de Vacinação"
+        ],
+        "description": "Cadastra vacina em campanha",
         "parameters": [
           {
             "name": "id",
@@ -481,7 +572,7 @@
             "type": "string"
           },
           {
-            "name": "cadastroVacina",
+            "name": "campanhaVacinacao",
             "in": "body",
             "required": true,
             "schema": {
@@ -528,13 +619,39 @@
     },
     "/routerCampanhaVacinacao/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "Campanha de Vacinação"
+        ],
+        "description": "Edita campanha",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "campahaVacinacao",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "descricao": {
+                  "type": "string"
+                },
+                "data_inicio": {
+                  "type": "date"
+                },
+                "data_fim": {
+                  "type": "date"
+                }
+              },
+              "required": [
+                "descricao",
+                "data_inicio",
+                "data_fim"
+              ]
+            }
           }
         ],
         "responses": {
@@ -547,7 +664,10 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Campanha de Vacinação"
+        ],
+        "description": "Deleta vacina campanha",
         "parameters": [
           {
             "name": "id",
@@ -568,7 +688,10 @@
     },
     "/routerCampanhaVacinacao/campanhaProtecao/{pc}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Campanha de Vacinação"
+        ],
+        "description": "Consulta campanha proteção",
         "parameters": [
           {
             "name": "pc",
@@ -589,7 +712,10 @@
     },
     "/routerCadastroVacina/": {
       "post": {
-        "description": "",
+        "tags": [
+          "Cadastro de Vacina"
+        ],
+        "description": "Cadastra vacina",
         "parameters": [
           {
             "name": "cadastroVacina",
@@ -597,20 +723,32 @@
             "required": true,
             "schema": {
               "properties": {
-                "id_paciente": {
-                  "type": "integer"
-                },
                 "id_vacina": {
                   "type": "integer"
                 },
-                "data_aplicacao": {
-                  "type": "date"
+                "nome_vacina": {
+                  "type": "string"
+                },
+                "sigla_vacina": {
+                  "type": "string"
+                },
+                "doenca_protecao": {
+                  "type": "string"
+                },
+                "dose": {
+                  "type": "string"
+                },
+                "id_rede": {
+                  "type": "integer"
                 }
               },
               "required": [
-                "id_paciente",
                 "id_vacina",
-                "data_aplicacao"
+                "nome_vacina",
+                "sigla_vacina",
+                "doenca_protecao",
+                "dose",
+                "id_rede"
               ]
             }
           }
@@ -627,13 +765,47 @@
     },
     "/routerCadastroVacina/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "Cadastro de Vacina"
+        ],
+        "description": "Edita vacina",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "cadastroVacina",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "nome_vacina": {
+                  "type": "string"
+                },
+                "sigla_vacina": {
+                  "type": "string"
+                },
+                "doenca_protecao": {
+                  "type": "string"
+                },
+                "dose": {
+                  "type": "string"
+                },
+                "id_rede": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "nome_vacina",
+                "sigla_vacina",
+                "doenca_protecao",
+                "dose",
+                "id_rede"
+              ]
+            }
           }
         ],
         "responses": {
@@ -648,15 +820,18 @@
     },
     "/routerCadastroVacina/cadastroAplicacaoAno": {
       "post": {
-        "description": "",
+        "tags": [
+          "Cadastro de Vacina"
+        ],
+        "description": "Cadastra aplicação ano",
         "parameters": [
           {
-            "name": "cadastroAplicacaoAno",
+            "name": "cadastroVacina",
             "in": "body",
             "required": true,
             "schema": {
               "properties": {
-                "id_paciente": {
+                "id": {
                   "type": "integer"
                 },
                 "id_vacina": {
@@ -673,7 +848,7 @@
                 }
               },
               "required": [
-                "id_paciente",
+                "id",
                 "id_vacina",
                 "qtd_ano_inicial",
                 "qtd_ano_final",
@@ -694,7 +869,10 @@
     },
     "/routerCadastroVacina/revomerAplicacaoAno/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Cadastro de Vacina"
+        ],
+        "description": "Deleta cadastro de aplicação ano",
         "parameters": [
           {
             "name": "id",
@@ -715,24 +893,27 @@
     },
     "/routerCadastroVacina/cadastroAplicacaoMes": {
       "post": {
-        "description": "",
+        "tags": [
+          "Cadastro de Vacina"
+        ],
+        "description": "Cadastra aplicação mês",
         "parameters": [
           {
-            "name": "cadastroAplicacaoMes",
+            "name": "cadastroVacina",
             "in": "body",
             "required": true,
             "schema": {
               "properties": {
-                "id_paciente": {
+                "id": {
                   "type": "integer"
                 },
                 "id_vacina": {
                   "type": "integer"
                 },
-                "qtd_ano_inicial": {
+                "qtd_meses_inicial": {
                   "type": "integer"
                 },
-                "qtd_ano_final": {
+                "qtd_meses_final": {
                   "type": "integer"
                 },
                 "desc_meses": {
@@ -741,10 +922,8 @@
               },
               "required": [
                 "id_paciente",
-                "id_vacina",
-                "qtd_ano_inicial",
-                "qtd_ano_final",
-                "desc_meses"
+                "nome",
+                "data_nascimento"
               ]
             }
           }
@@ -761,7 +940,10 @@
     },
     "/routerCadastroVacina/removerAplicacaoMes/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Cadastro de Vacina"
+        ],
+        "description": "Deleta aplicação mês",
         "parameters": [
           {
             "name": "id",

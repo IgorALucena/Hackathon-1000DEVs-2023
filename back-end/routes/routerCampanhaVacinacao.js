@@ -2,13 +2,17 @@ const express = require('express');
 const routerCampanhaVacinacao = express.Router();
 const {campanhaDataController, cadastroCampanhaController, editCampanhaController, cadastroVacinaCampanhaController, consultaCampanhaProtecaoController, deleteVacinaCampanhaController} = require('../controllers/campanhaVacinacao-controller');
 
-// #swagger.name = 'campanhaVacinacao-controller'
-// #swagger.description = 'campanhaVacinacao controller.'
-// #swagger.tags = ['campanhaVacinacao']
+routerCampanhaVacinacao.get('/campanhaData/', campanhaDataController
+// #swagger.tags = ['Campanha de Vacinação']
+// #swagger.name = 'controller-campanha-vacinação'
+// #swagger.description = 'Pesquisa campanha por data'
+);
 
-routerCampanhaVacinacao.get('/campanhaData/', campanhaDataController); // /campanhaData?data=1/1/23
-
-routerCampanhaVacinacao.post('/', cadastroCampanhaController /*  #swagger.parameters['CampanhaVacinacao'] = {      
+routerCampanhaVacinacao.post('/', cadastroCampanhaController 
+// #swagger.tags = ['Campanha de Vacinação']
+// #swagger.name = 'controller-campanha-vacinação'
+// #swagger.description = 'Cadastra Campanha de vacinação'
+/*  #swagger.parameters['campanhaVacinacao'] = {      
     in: 'body',
     type: 'object',
     required: true,
@@ -31,7 +35,11 @@ routerCampanhaVacinacao.post('/', cadastroCampanhaController /*  #swagger.parame
     },
 } */);
 
-routerCampanhaVacinacao.post('/:id/:id1', cadastroVacinaCampanhaController /*  #swagger.parameters['cadastroVacina'] = {      
+routerCampanhaVacinacao.post('/:id/:id1', cadastroVacinaCampanhaController 
+// #swagger.tags = ['Campanha de Vacinação']
+// #swagger.name = 'controller-campanha-vacinação'
+// #swagger.description = 'Cadastra vacina em campanha'
+/*  #swagger.parameters['campanhaVacinacao'] = {      
     in: 'body',
     type: 'object',
     required: true,
@@ -60,11 +68,42 @@ routerCampanhaVacinacao.post('/:id/:id1', cadastroVacinaCampanhaController /*  #
     },
 } */);
 
-routerCampanhaVacinacao.put('/:id', editCampanhaController);
+routerCampanhaVacinacao.put('/:id', editCampanhaController
+// #swagger.tags = ['Campanha de Vacinação']
+// #swagger.name = 'controller-campanha-vacinação'
+// #swagger.description = 'Edita campanha'
+/*  #swagger.parameters['campahaVacinacao'] = {      
+  in: 'body',
+  type: 'object',
+  required: true,
+  '@schema': {
+    properties: {
+      descricao: {
+        type: "string",          
+      },
+      data_inicio: {
+        type: "date"
+      },
+      data_fim: {
+        type: "date",          
+      },
+    },
+    required: ["descricao", "data_inicio", "data_fim"]
+  },
+} */
+);
 
-routerCampanhaVacinacao.delete('/:id', deleteVacinaCampanhaController);
+routerCampanhaVacinacao.delete('/:id', deleteVacinaCampanhaController
+// #swagger.tags = ['Campanha de Vacinação']
+// #swagger.name = 'controller-campanha-vacinação'
+// #swagger.description = 'Deleta vacina campanha'
+);
 
-routerCampanhaVacinacao.get('/campanhaProtecao/:pc', consultaCampanhaProtecaoController);
+routerCampanhaVacinacao.get('/campanhaProtecao/:pc', consultaCampanhaProtecaoController
+// #swagger.tags = ['Campanha de Vacinação']
+// #swagger.name = 'controller-campanha-vacinação'
+// #swagger.description = 'Consulta campanha proteção'
+);
 
 module.exports = {routerCampanhaVacinacao};
 

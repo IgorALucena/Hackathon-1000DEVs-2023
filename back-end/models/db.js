@@ -1,12 +1,11 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    user: 'bertha',
-    host: 'itcpostgresql.postgres.database.azure.com',
-    database: 'db002',
-    password: '%&unsas_aew27002',
-    port: 5432,
-    ssl: true
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE,
+    port: process.env.DB_PORT,
+    host: process.env.DB_HOST
 });
 
 const pesquisaPorPessoa = async (id) => {

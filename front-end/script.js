@@ -1,4 +1,4 @@
-const urlApi = '';
+/*const urlApi = '';
 const itemList = document.querySelector('#list');
 
 let fetchApi = async (url) => {
@@ -14,5 +14,5 @@ let render = (itens) => {
     itens.results.map((item) => {
         itemList.insertAdjacentHTML('beforeend', `<li>${item}</li>`);
     });
-};
+};*/
 

@@ -2,89 +2,143 @@ const express = require('express');
 const routerCadastroVacina = express.Router();
 const {cadastroVacinaController, edicaoVacinaController, cadastroAplicacaoAnoController, removerAplicacaoAnoController, cadastroAplicacaoMesController, removerAplicacaoMesController } = require('../controllers/cadastroVacina-controller')
 
-// #swagger.name = 'cadastroVacina-controller'
-// #swagger.description = 'cadastroVacina controller.'
-// #swagger.tags = ['cadastroVacina']
-
-routerCadastroVacina.post('/', cadastroVacinaController /*  #swagger.parameters['cadastroVacina'] = {      
-    in: 'body',
-    type: 'object',
-    required: true,
-    '@schema': {
-      properties: {
-        id_paciente: {
-          type: "integer",          
-        },
-        id_vacina: {
-          type: "integer",
-        },
-        data_aplicacao: {
-          type: "date",          
-        },
+routerCadastroVacina.post('/', cadastroVacinaController 
+// #swagger.tags = ['Cadastro de Vacina']
+// #swagger.name = 'cadastro-vacina-controller'
+// #swagger.description = 'Cadastra vacina'
+/*  #swagger.parameters['cadastroVacina'] = {      
+  in: 'body',
+  type: 'object',
+  required: true,
+  '@schema': {
+    properties: {
+      id_vacina: {
+        type: "integer",          
       },
-      required: ["id_paciente", "id_vacina", "data_aplicacao",]
-    },
-} */);
-
-routerCadastroVacina.put('/:id', edicaoVacinaController);
-
-routerCadastroVacina.post('/cadastroAplicacaoAno', cadastroAplicacaoAnoController /*  #swagger.parameters['cadastroAplicacaoAno'] = {      
-    in: 'body',
-    type: 'object',
-    required: true,
-    '@schema': {
-      properties: {
-        id_paciente: {
-          type: "integer",          
-        },
-        id_vacina: {
-          type: "integer",
-        },
-        qtd_ano_inicial: {
-          type: "integer",          
-        },
-        qtd_ano_final: {
-          type: "integer",
-        },
-        desc_ano: {
-          type: "string",
-        }
-
+      nome_vacina: {
+        type: "string"
       },
-      required: ["id_paciente", "id_vacina", "qtd_ano_inicial", "qtd_ano_final", "desc_ano"]
-    },
-} */);
-
-routerCadastroVacina.delete('/revomerAplicacaoAno/:id', removerAplicacaoAnoController);
-
-routerCadastroVacina.post('/cadastroAplicacaoMes', cadastroAplicacaoMesController /*  #swagger.parameters['cadastroAplicacaoMes'] = {      
-    in: 'body',
-    type: 'object',
-    required: true,
-    '@schema': {
-      properties: {
-        id_paciente: {
-          type: "integer",          
-        },
-        id_vacina: {
-          type: "integer",
-        },
-        qtd_ano_inicial: {
-          type: "integer",          
-        },
-        qtd_ano_final: {
-          type: "integer",
-        },
-        desc_meses: {
-          type: "string",
-        }
-
+      sigla_vacina: {
+        type: "string",          
       },
-      required: ["id_paciente", "id_vacina", "qtd_ano_inicial", "qtd_ano_final", "desc_meses"]
+      doenca_protecao: {
+        type: "string",          
+      },
+      dose: {
+        type: "string",          
+      },
+      id_rede: {
+        type: "integer",          
+      },
     },
-} */);
+    required: ["id_vacina", "nome_vacina", "sigla_vacina", "doenca_protecao", "dose", "id_rede"]
+  },
+} */
+);
 
-routerCadastroVacina.delete('/removerAplicacaoMes/:id', removerAplicacaoMesController);
+routerCadastroVacina.put('/:id', edicaoVacinaController 
+// #swagger.tags = ['Cadastro de Vacina']
+// #swagger.name = 'edicao-vacina-controller'
+// #swagger.description = 'Edita vacina'
+/*  #swagger.parameters['cadastroVacina'] = {      
+  in: 'body',
+  type: 'object',
+  required: true,
+  '@schema': {
+    properties: {
+      nome_vacina: {
+        type: "string",          
+      },
+      sigla_vacina: {
+        type: "string"
+      },
+      doenca_protecao: {
+        type: "string",          
+      },
+      dose: {
+        type: "string",          
+      },
+      id_rede: {
+        type: "integer",
+      },
+    },
+    required: ["nome_vacina", "sigla_vacina", "doenca_protecao", "dose", "id_rede"]
+  },
+} */
+);
 
+routerCadastroVacina.post('/cadastroAplicacaoAno', cadastroAplicacaoAnoController
+// #swagger.tags = ['Cadastro de Vacina']
+// #swagger.name = 'cadastro-aplicacao-ano-controller'
+// #swagger.description = 'Cadastra aplicação ano'
+/*  #swagger.parameters['cadastroVacina'] = {      
+  in: 'body',
+  type: 'object',
+  required: true,
+  '@schema': {
+    properties: {
+      id: {
+        type: "integer",          
+      },
+      id_vacina: {
+        type: "integer"
+      },
+      qtd_ano_inicial: {
+        type: "integer",          
+      },
+      qtd_ano_final: {
+        type: "integer",          
+      },
+      desc_ano: {
+        type: "string",
+      },
+    },
+    required: ["id", "id_vacina", "qtd_ano_inicial", "qtd_ano_final", "desc_ano"]
+  },
+} */
+);
+
+routerCadastroVacina.delete('/revomerAplicacaoAno/:id', removerAplicacaoAnoController
+// #swagger.tags = ['Cadastro de Vacina']
+// #swagger.name = 'remover-aplicacao-ano-controller'
+// #swagger.description = 'Deleta cadastro de aplicação ano'
+);
+
+routerCadastroVacina.post('/cadastroAplicacaoMes', cadastroAplicacaoMesController
+// #swagger.tags = ['Cadastro de Vacina']
+// #swagger.name = 'cadastro-aplicacao-mes-controller'
+// #swagger.description = 'Cadastra aplicação mês'
+/*  #swagger.parameters['cadastroVacina'] = {      
+  in: 'body',
+  type: 'object',
+  required: true,
+  '@schema': {
+    properties: {
+      id: {
+        type: "integer",          
+      },
+      id_vacina: {
+        type: "integer"
+      },
+      qtd_meses_inicial: {
+        type: "integer",          
+      },
+      qtd_meses_final: {
+        type: "integer",          
+      },
+      desc_meses: {
+        type: "string",
+      },
+    },
+    required: ["id_paciente", "nome", "data_nascimento",]
+  },
+} */
+);
+
+routerCadastroVacina.delete('/removerAplicacaoMes/:id', removerAplicacaoMesController
+// #swagger.tags = ['Cadastro de Vacina']
+// #swagger.name = 'remover-aplicacao-mes-controller'
+// #swagger.description = 'Deleta aplicação mês'
+);
 
 module.exports = {routerCadastroVacina};

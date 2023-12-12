@@ -2,13 +2,17 @@ const express = require('express');
 const routerConsultaVacinaAplicada = express.Router();
 const {buscaVacinaAplicadas, cadastraVacinaAplicada, deletaVacinaAplicada} = require('../controllers/vacinaAplicada-controller');
 
-// #swagger.name = 'vacinaAplicada-controller'
-// #swagger.description = 'vacinaAplicada controller.'
-// #swagger.tags = ['vacinaAplicada']
+routerConsultaVacinaAplicada.get('/:id', buscaVacinaAplicadas
+// #swagger.tags = ['Vacina Aplicada']
+// #swagger.name = 'controller-vacina-aplicada-individual'
+// #swagger.description = 'Consulta de vacina aplicada individualmente'
+);
 
-routerConsultaVacinaAplicada.get('/:id', buscaVacinaAplicadas);
-
-routerConsultaVacinaAplicada.post('/', cadastraVacinaAplicada /*  #swagger.parameters['cadastraVacinaAplicada'] = {      
+routerConsultaVacinaAplicada.post('/', cadastraVacinaAplicada 
+// #swagger.tags = ['Vacina Aplicada']
+// #swagger.name = 'controller-vacina-aplicada'
+// #swagger.description = 'Cadastro de vacina aplicada'
+/*  #swagger.parameters['cadastraVacinaAplicada'] = {      
     in: 'body',
     type: 'object',
     required: true,
@@ -28,7 +32,11 @@ routerConsultaVacinaAplicada.post('/', cadastraVacinaAplicada /*  #swagger.param
     },
 } */);
 
-routerConsultaVacinaAplicada.delete('/:id/:id1', deletaVacinaAplicada);
+routerConsultaVacinaAplicada.delete('/:id/:id1', deletaVacinaAplicada
+// #swagger.tags = ['Vacina Aplicada']
+// #swagger.name = 'controller-vacina-aplicada'
+// #swagger.description = 'Deleta vacina aplicada'
+);
 
 module.exports = {routerConsultaVacinaAplicada};
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const server = express();
+const cors = require('cors');
 const {routerAdmPaciente} = require('./routes/routerAdmPaciente');
 const {routerConsultaVacina} = require('./routes/routerConsultaVacina');
 const {routerConsultaVacinaIdade} = require('./routes/routerConsultaVacinaIdade')
@@ -12,16 +13,20 @@ const {rootRouteController} = require('./controllers/root-router-controller');
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
 
+server.use(cors({
+    allowedHeaders: ['Content-Type', 'api_key', 'Authorization']
+  }));
+
 server.use("/swagger-ui", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 const PORT = process.env.PORT || 3000;
-const cors = require('cors');
-
-server.use(cors());
 
 server.use(express.json());
 
-server.get('/', rootRouteController);
+server.get('/', rootRouteController // #swagger.name = 'rota-raiz'
+// #swagger.description = 'boas-vindas.'
+// #swagger.tags = ['Raiz']
+);
 
 server.use('/routerAdmPaciente', routerAdmPaciente);
 
@@ -32,6 +37,7 @@ server.use('/routerConsultaVacinaIdade', routerConsultaVacinaIdade);
 server.use('/routerConsultaVacinaProtecao', routerConsultaVacinaProtecao);
 
 server.use('/routerVacinaAplicada', routerConsultaVacinaAplicada);
+
 
 server.use('/routerConsultaVacinaPaciente', routerConsultaVacinaPaciente);
 
